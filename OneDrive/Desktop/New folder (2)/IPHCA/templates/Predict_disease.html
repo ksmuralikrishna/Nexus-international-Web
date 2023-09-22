@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Disease Prediction Result</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background-color: #F3E5F5;
+}
+h1 {
+    color: #030101;
+    text-align: center;
+    text-shadow: 1px 1px #ddd;
+}
+.container {
+    margin: 20px auto;
+    width: 600px;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0px 0px 10px #512DA8;
+}
+label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+.button {
+    background-color: #512DA8;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    padding: 10px 20px;
+    font-size: 16px;
+}
+.button:hover {
+    background-color: #512DA8;
+}
+.button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+.result {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #eee;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.back-btn {
+    display: block;
+    margin: 20px auto;
+    text-align: center;
+}
+</style>
+</head>
+<body>
+<h1>Disease Prediction Result</h1>
+<div class="container">
+<form action="/hospital" method="POST">
+    <label>Disease:</label>
+    <div class="result" id="diseaseResult"></div>
+    <label>Disease description:</label>
+    <div class="result" id="diseaseDescription"></div>
+    <label>Home Remedies:</label>
+    <div class="result" id="remediesResult"></div>
+    <label>Diagnosis Test:</label>
+    <div class="result" id="diagnosisTest"></div>
+    <label for="doctor">Doctor to Visit:</label>
+    <div class="result" id="doctorResult"></div>
+</form>
+
+
+    <form action="/hospital" method="POST">
+        <label for="location">Location:</label>
+        <select id="location" name='district'>
+            <option value="">Select a location</option>
+            <option value="Thiruvananthapuram">Thiruvananthapuram</option>
+            <option value="Kollam">Kollam</option>
+            <option value="Pathanamthitta">Pathanamthitta</option>
+            <option value="Alappuzha">Alappuzha</option>
+            <option value="Kottayam">Kottayam</option>
+            <option value="Idukki">Idukki</option>
+            <option value="Ernakulam">Ernakulam</option>
+            <option value="Thrissur">Thrissur</option>
+            <option value="Palakkad">Palakkad</option>
+            <option value="Malappuram">Malappuram</option>
+            <option value="Kozhikode">Kozhikode</option>
+            <option value="Wayanad">Wayanad</option>
+            <option value="Kannur">Kannur</option>
+            <option value="Kasaragod">Kasaragod</option>
+        </select>
+        <button class="button" type="submit" onclick="hospital()">Search Hospitals</button>
+    </form>
+    <div id="hospitals">
+        
+    </div>
+</div>
+<script>
+
+var predictedDisease = "{{message}}";
+document.getElementById("diseaseResult").innerText = predictedDisease;
+
+var remedies = "{{message2}}";
+document.getElementById("remediesResult").innerText = remedies;
+
+var test = "{{message3}}";
+document.getElementById("diagnosisTest").innerText = test;
+
+var specialistDoctor = "{{message4}}";
+document.getElementById("doctorResult").innerText = specialistDoctor;
+
+var diseaseDesc = "{{message5}}";
+document.getElementById("diseaseDescription").innerText = diseaseDesc;
+
+var hospital = "{{message6}}";
+document.getElementById("hospitals").innerText = hospital;
+
+    
+</script>
+<form method="POST" action="{{ url_for('home') }}">
+    <button class="button back-btn">Back to Home Page</button>
+</form>
+  
+</body>
+</html>

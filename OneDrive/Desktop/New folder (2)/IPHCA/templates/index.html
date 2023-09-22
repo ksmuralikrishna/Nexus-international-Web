@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Disease Predictor</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background-color: #F3E5F5;
+}
+h1 {
+    color: #030101;
+    text-align: center;
+    text-shadow: 1px 1px #ddd;
+}
+.container {
+    margin: 20px auto;
+    width: 600px;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0px 0px 10px #512DA8;
+}
+label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+select,
+input[type="text"] {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+#selected-symptoms {
+    display: block;
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    overflow: auto;
+}
+.button {
+    background-color: #512DA8;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    padding: 10px 20px;
+    font-size: 16px;
+}
+.button:hover {
+    background-color: #512DA8;
+}
+.button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+.back-btn {
+    display: block;
+    margin: 20px auto;
+    text-align: center;
+}
+.result {
+    margin-top: 20px;
+    text-align: center;
+    font-weight: bold;
+}
+</style>
+</head>
+<body>
+<h1>Disease Predictor</h1>
+<div class="container">
+        <form action="/predict" method="POST">
+                <label for="symptom1">Symptom 1:</label>
+                <select id="symptom1" name="symptom1">
+                    <option value="">Select a symptom</option>
+                </select>
+                <label for="symptom2">Symptom 2:</label>
+            <select id="symptom2" name="symptom2">
+                <option value="">Select a symptom</option>
+            </select>
+            <label for="symptom3">Symptom 3:</label>
+            <select id="symptom3" name="symptom3">
+                <option value="">Select a symptom</option>
+            </select>
+            <label for="symptom4">Symptom 4:</label>
+            <select id="symptom4" name="symptom4">
+                <option value="">Select a symptom</option>
+            </select>
+            <label for="symptom5">Symptom 5:</label>
+            <select id="symptom5" name="symptom5">
+                <option value="">Select a symptom</option>
+            </select>
+            <!--<label for="selectedSymptoms">Predicted disease</label>
+            <textarea id="selectedSymptoms" readonly></textarea>-->
+     
+            <button type="submit" class="button" id="predictButton" onclick="predict()" >Predict</button>
+            <div class="result" id="er">{{error}}</div>
+
+        </form>
+        <div id="result" class="result"></div>
+    </div>
+    
+    <form method="POST" action="{{ url_for('home') }}">
+        <button class="button back-btn">Back to Home Page</button>
+    </form>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Array of symptoms
+        var symptoms = [
+        'itching', 'skin_rash', 'nodal_skin_eruptions', 'continuous_sneezing', 'shivering', 'chills', 'joint_pain', 'stomach_pain',
+        'acidity', 'ulcers_on_tongue', 'muscle_wasting', 'vomiting', 'burning_micturition', 'spotting_ urination', 'fatigue',
+        'weight_gain', 'anxiety', 'cold_hands_and_feets', 'mood_swings', 'weight_loss', 'restlessness', 'lethargy',
+        'patches_in_throat', 'irregular_sugar_level', 'cough', 'high_fever', 'sunken_eyes', 'breathlessness', 'sweating',
+        'dehydration', 'indigestion', 'headache', 'yellowish_skin', 'dark_urine', 'nausea', 'loss_of_appetite',
+        'pain_behind_the_eyes', 'back_pain', 'constipation', 'abdominal_pain', 'diarrhoea', 'mild_fever', 'yellow_urine',
+        'yellowing_of_eyes', 'acute_liver_failure', 'fluid_overload', 'swelling_of_stomach', 'swelled_lymph_nodes',
+        'malaise', 'blurred_and_distorted_vision', 'phlegm', 'throat_irritation', 'redness_of_eyes', 'sinus_pressure',
+        'runny_nose', 'congestion', 'chest_pain', 'weakness_in_limbs', 'fast_heart_rate', 'pain_during_bowel_movements',
+        'pain_in_anal_region', 'bloody_stool', 'irritation_in_anus', 'neck_pain', 'dizziness', 'cramps', 'bruising', 'obesity',
+        'swollen_legs', 'swollen_blood_vessels', 'puffy_face_and_eyes', 'enlarged_thyroid', 'brittle_nails',
+        'swollen_extremeties', 'excessive_hunger', 'extra_marital_contacts', 'drying_and_tingling_lips', 'slurred_speech',
+        'knee_pain', 'hip_joint_pain', 'muscle_weakness', 'stiff_neck', 'swelling_joints', 'movement_stiffness',
+        'spinning_movements', 'loss_of_balance', 'unsteadiness', 'weakness_of_one_body_side', 'loss_of_smell',
+        'bladder_discomfort', 'foul_smell_of urine', 'continuous_feel_of_urine', 'passage_of_gases', 'internal_itching',
+        'toxic_look_(typhos)', 'depression', 'irritability', 'muscle_pain', 'altered_sensorium', 'red_spots_over_body',
+        'belly_pain', 'abnormal_menstruation', 'dischromic _patches', 'watering_from_eyes', 'increased_appetite', 'polyuria',
+        'family_history', 'mucoid_sputum', 'rusty_sputum', 'lack_of_concentration', 'visual_disturbances',
+        'receiving_blood_transfusion', 'receiving_unsterile_injections', 'coma', 'stomach_bleeding',
+        'distention_of_abdomen', 'history_of_alcohol_consumption', 'fluid_overload', 'blood_in_sputum',
+        'prominent_veins_on_calf', 'palpitations', 'painful_walking', 'pus_filled_pimples', 'blackheads',
+        'scurring', 'skin_peeling', 'silver_like_dusting', 'small_dents_in_nails', 'inflammatory_nails',
+        'blister', 'red_sore_around_nose', 'yellow_crust_ooze'
+    ]
+    
+    symptoms.sort(); 
+
+        var select = document.getElementById("symptom1");
+        var select1 = document.getElementById("symptom2");
+        var select2 = document.getElementById("symptom3");
+        var select3 = document.getElementById("symptom4");
+        var select4 = document.getElementById("symptom5");
+      
+        // Loop through the symptoms array and create an option for each symptom
+        for (var i = 0; i < symptoms.length; i++) {
+            var option = document.createElement("option");
+            option.value = symptoms[i];
+            option.text = symptoms[i];
+            select.appendChild(option);
+          
+            var option1 = document.createElement("option");
+            option1.value = symptoms[i];
+            option1.text = symptoms[i];
+            select1.appendChild(option1);
+          
+            var option2 = document.createElement("option");
+            option2.value = symptoms[i];
+            option2.text = symptoms[i];
+            select2.appendChild(option2);
+          
+            var option3 = document.createElement("option");
+            option3.value = symptoms[i];
+            option3.text = symptoms[i];
+            select3.appendChild(option3);
+          
+            var option4 = document.createElement("option");
+            option4.value = symptoms[i];
+            option4.text = symptoms[i];
+            select4.appendChild(option4); 
+        }
+      });
+
+    function predict() {
+        var selectedSymptoms = [];
+        var select = document.getElementById("symptom1");
+        var select1 = document.getElementById("symptom2");
+        var select2 = document.getElementById("symptom3");
+        var select3 = document.getElementById("symptom4");
+        var select4 = document.getElementById("symptom5");
+        var selectedSymptomsContainer = document.getElementById("selectedSymptoms");
+
+        if (select.value !== "") {
+            selectedSymptoms.push(select.value);
+        }
+        if (select1.value !== "") {
+            selectedSymptoms.push(select1.value);
+        }
+        if (select2.value !== "") {
+            selectedSymptoms.push(select2.value);
+        }
+        if (select3.value !== "") {
+            selectedSymptoms.push(select3.value);
+        }
+        if (select4.value !== "") {
+            selectedSymptoms.push(select4.value);
+        }
+
+        // Display selected symptoms
+        selectedSymptomsContainer.value = selectedSymptoms.join(", ");
+
+        // Make a request to the server to predict the disease based on selected symptoms
+        // You will need to modify this code to send the request to your server-side script
+        fetch("/predict", {
+            method: "POST",
+            body: JSON.stringify(selectedSymptoms),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Display the predicted disease
+            var resultContainer = document.createElement("div");
+            resultContainer.innerHTML = "Predicted Disease: " + data.predictedDisease;
+            document.body.appendChild(resultContainer);
+        })
+        .catch(error => console.error(error));
+    }
+</script>
+</body>
+</html>

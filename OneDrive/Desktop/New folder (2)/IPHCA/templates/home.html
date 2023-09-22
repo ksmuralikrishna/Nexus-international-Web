@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Intelligent Personal Healthcare Assistant - Home</title>
+<style>
+body {
+background-color: #FDEEF4;
+font-family: Arial, sans-serif;
+}
+.container {
+margin: auto;
+padding: 20px;
+width: 60%;
+text-align: center;
+background-color: #FAD9E3;
+box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+border-radius: 10px;
+position: relative;
+top: 100px;
+}
+h1 {
+font-size: 50px;
+color: #383838;
+margin-top: 20px;
+}
+h2 {
+font-size: 30px;
+color: #383838;
+margin-top: 40px;
+}
+p {
+font-size: 20px;
+color: #383838;
+margin-top: 20px;
+}
+a {
+text-decoration: none;
+color: #383838;
+}
+.about-us {
+margin-top: 50px;
+}
+.feedback {
+margin-top: 50px;
+}
+.btn {
+display: inline-block;
+background-color: #383838;
+color: #FDEEF4;
+padding: 10px 20px;
+font-size: 20px;
+border: none;
+border-radius: 5px;
+margin-top: 20px;
+cursor: pointer;
+transition: background-color 0.3s ease-in-out;
+}
+.btn:hover {
+background-color: #FDEEF4;
+color: #383838;
+}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>Intelligent Personal Healthcare ssistant</h1>
+<h2>Disease Prediction</h2>
+<p>This is a preliminary health checking stage. It is always better to
+consult a doctor for proper diagnosis and treatment.</p>
+<a href="{{ url_for('index') }}" class="btn">Predict Disease</a>
+<a href="{{ url_for('diet') }}" class="btn">Diet Plan</a>
+<div class="about-us">
+<h2>About Us</h2>
+<p>We are a team of developers who are passionate about using
+technology to improve healthcare.</p>
+</div>
+<div class="feedback">
+<h2>Feedback</h2>
+<p>Email us at : <a href="mailto:team15s6mace@gmail.com">team15maces6r@gmail.com</a> with your thoughts and suggestions.</p>
+</div>
+</div>
+</body>
+</html>

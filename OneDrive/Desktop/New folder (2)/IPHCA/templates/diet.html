@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Diet Plan Calculator</title>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background-color: #F3E5F5;
+}
+h1 {
+  text-align: center;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  color: #01090c;
+}
+form {
+  margin: 0 auto;
+  width: 500px;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0px 0px 10px #512DA8;
+}
+label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
+  color: #555;
+}
+input[type="number"] {
+  padding: 5px;
+  width: 100%;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+input[type="submit"] {
+  background-color: #512DA8;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  margin-top: 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+input[type="submit"]:hover {
+  background-color: #512DA8;
+}
+.result {
+  margin-top: 30px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px #999;
+  display: none;
+}
+.result h2 {
+  margin-top: 0px;
+  color: #512DA8;
+}
+.result p {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  color: #555;
+  font-weight: bold;
+}
+.result ul {
+  margin: 0px;
+  padding: 0px;
+  list-style: none;
+}
+.result li {
+  margin-bottom: 10px;
+  color: #150e0e;
+}
+.note {
+  margin-top: 20px;
+  color: #999;
+}
+button {
+  background-color: #512DA8;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  padding: 10px 20px;
+  font-size: 16px;
+}
+.button:hover {
+  background-color: #512DA8;
+}
+.button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+.btn {
+  background-color: #512DA8;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  padding: 10px 20px;
+  font-size: 16px;
+}
+
+</style>
+</head>
+<body>
+<h1>Diet Plan Calculator</h1>
+<form id="calculator" methods="POST">
+<div class="note" >
+<p>Note: Please consult your doctor before starting any diet or exercise plan, especially if you have a critical disease such as diabetes, high cholesterol, or heart problems.</p>
+</div>
+<label for="age">Age:</label>
+<input type="number" name="age" id="age" required>
+<label for="height">Height (in cm):</label>
+<input type="number" name="height" id="height" required>
+<label for="weight">Weight (in kg):</label>
+<input type="number" name="weight" id="weight" required>
+<input type="submit" value="Calculate BMI">
+<a href="{{ url_for('home') }}" method="POST" class="btn">Go back to homepage</a>
+
+</form>
+<div class="result" id="result">
+<h2>Your BMI is: <span id="bmi"></span></h2>
+<p id="category"></p>
+<ul>
+<li><strong>Food Plan:</strong> <span id="food-plan"></span></li>
+<li><strong>Exercise Plan:</strong> <span id="exercise-plan"></span></li>
+</ul>
+<script>
+document.getElementById("calculator").addEventListener("submit",
+function(event) {
+event.preventDefault();
+var age = parseFloat(document.getElementById("age").value);
+var height = parseFloat(document.getElementById("height").value);
+var weight = parseFloat(document.getElementById("weight").value);
+var bmi = (weight / ((height / 100) * (height / 100))).toFixed(2);
+var category = "";
+var foodPlan = "";
+var exercisePlan = "";
+if (bmi < 18.5) {
+category = "You are underweight.";
+foodPlan = "Eat more protein, carbohydrates and healthy fats.";
+exercisePlan = "Weight lifting and resistance training.";
+} else if (bmi >= 18.5 && bmi <= 24.9) {
+category = "You have a normal weight.";
+foodPlan = "Eat a balanced diet with moderate portions.";
+exercisePlan = "30 minutes of moderate exercise per day.";
+} else if (bmi >= 25 && bmi <= 29.9) {
+category = "You are overweight.";
+foodPlan = "Reduce calorie intake and eat more fruits and vegetables.";
+exercisePlan = "45-60 minutes of moderate exercise per day.";
+} else {
+category = "You have obesity.";
+foodPlan = "Eat a low calorie diet and avoid processed foods.";
+exercisePlan = "60 minutes of moderate exercise per day.";
+}
+document.getElementById("bmi").innerHTML = bmi;
+document.getElementById("category").innerHTML = category;
+document.getElementById("food-plan").innerHTML = foodPlan;
+document.getElementById("exercise-plan").innerHTML = exercisePlan;
+document.getElementById("result").style.display = "block";
+});
+</script></body>
+</html>
