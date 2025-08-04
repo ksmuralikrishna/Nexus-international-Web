@@ -1,9 +1,0 @@
-return render_template('Predict_disease.html', message= predicted, message2=rem, message3=test, message4=specialist, message5=description)Disease: Hypothyroidism
-
-
-
-Continuous sneezing
-Runny nose
-Congestion
-Sore throat
-Cough
