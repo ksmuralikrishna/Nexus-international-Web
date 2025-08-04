@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus International - Healthcare Credential Services</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            position: relative;
+        }
+
+        nav a:hover, nav a.active {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Main Content */
+        main {
+            margin-top: 80px;
+        }
+
+        .page {
+            display: none;
+            animation: fadeIn 0.6s ease-in-out;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 6rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" fill="white" opacity="0.1"><path d="M0,20 Q250,80 500,20 T1000,20 V100 H0 Z"/></svg>') no-repeat center bottom;
+            background-size: cover;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            animation: slideInUp 0.8s ease-out;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+            line-height: 1.8;
+            animation: slideInUp 0.8s ease-out 0.2s both;
+        }
+
+        .contact-number {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #ffd700;
+            animation: slideInUp 0.8s ease-out 0.4s both;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Icons Section */
+        .icons-section {
+            padding: 4rem 2rem;
+            background: #f8f9ff;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #1e3c72;
+            margin-bottom: 3rem;
+            font-weight: 600;
+        }
+
+        .icons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .icon-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .icon-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            border-color: #667eea;
+        }
+
+        .icon-card i {
+            font-size: 3rem;
+            color: #667eea;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .icon-card:hover i {
+            transform: scale(1.1);
+            color: #1e3c72;
+        }
+
+        .icon-card h3 {
+            font-size: 1.3rem;
+            color: #1e3c72;
+            font-weight: 600;
+        }
+
+        /* Services Section */
+        .services-section {
+            padding: 4rem 2rem;
+            background: white;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .service-card {
+            background: linear-gradient(135deg, #f8f9ff 0%, #e8ecff 100%);
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+            transition: all 0.4s ease;
+            border: 1px solid rgba(102, 126, 234, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .service-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .service-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+        }
+
+        .service-card h3 {
+            font-size: 1.5rem;
+            color: #1e3c72;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .service-card p {
+            color: #555;
+            line-height: 1.7;
+            margin-bottom: 1rem;
+        }
+
+        .service-card ul {
+            list-style: none;
+            margin-bottom: 1.5rem;
+        }
+
+        .service-card li {
+            color: #666;
+            padding: 0.3rem 0;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .service-card li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .special-text {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 1rem;
+            border-radius: 10px;
+            font-weight: 500;
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .coming-soon {
+            background: linear-gradient(135deg, #e0e0e0, #f0f0f0);
+            border: 2px dashed #ccc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #888;
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 3rem 2rem 1rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: #ffd700;
+            font-size: 1.3rem;
+        }
+
+        .footer-section p, .footer-section a {
+            color: rgba(255,255,255,0.9);
+            text-decoration: none;
+            margin-bottom: 0.5rem;
+            display: block;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: #ffd700;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-icons a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            color: white;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            background: #ffd700;
+            color: #1e3c72;
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.2);
+            padding-top: 1rem;
+            color: rgba(255,255,255,0.7);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            nav ul {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: #1e3c72;
+                flex-direction: column;
+                padding: 1rem;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            }
+
+            nav ul.show {
+                display: flex;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .icons-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header-container {
+                padding: 0 1rem;
+            }
+        }
+
+        /* Scroll animations */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .animate-on-scroll.animated {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .contact-number {
+            display: inline-block;
+            padding: 12px 20px;
+            background-color: #ffffff;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            text-decoration: none;
+            color: #333;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .contact-number:hover {
+            background-color: #007bff;
+            color: white;
+            border-color: #007bff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,123,255,0.3);
+        }
+        
+        .contact-number i {
+            margin-right: 8px;
+            transition: transform 0.3s ease;
+        }
+        
+        .contact-number:hover i {
+            transform: scale(1.1);
+        }
+        
+        .contact-number:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .two-column-list-otherSevices {
+            display: flex;
+            gap: 30px; /* space between columns */
+        }
+        .two-column-list {
+            display: flex;
+            gap: 30px; /* space between columns */
+        }
+
+
+        .two-column-list ul {
+            list-style-type: none;
+            /* padding-left: 20px; */
+            margin: 0;
+        }
+        @media (max-width: 575.98px) {
+            .two-column-list-otherSevices {
+            gap: 0;
+            }
+        }
+        .hero-image {
+            flex: 1 1 40%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            opacity: 0.95;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .hero-image img:hover {
+            transform: scale(1.03);
+        }
+    </style>
+</head>
+<body>
+    <header id="header">
+        <div class="header-container">
+            <a href="#" class="logo">Nexus International</a>
+            <nav>
+                <ul id="nav-menu">
+                    <li><a href="#" class="nav-link active" data-page="home">Home</a></li>
+                    <li><a href="#" class="nav-link" data-page="services">Services</a></li>
+                    <li><a href="#" class="nav-link" data-page="contact">Contact</a></li>
+                </ul>
+            </nav>
+            <button class="mobile-menu-btn" id="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <!-- Home Page -->
+        <div id="home" class="page active">
+            <section class="hero">
+                <div class="hero-content">
+                    <h1>Welcome to Nexus International</h1>
+                    <p>At Nexus we simplify the complexities of the healthcare industry, empowering medical professionals to focus on what matters most — patient care. Specializing in medical verifications, good standing certifications, and Dataflow services, we streamline the process to ensure your credentials are in order — quickly and efficiently. Whether you're a healthcare provider, institution, or practitioner, Nexus International is your trusted partner in navigating the paperwork that supports your professional journey. With us, your peace of mind is just a step away.</p>
+                    <div class="contact-number">
+                        <a href="tel:+919876543210" class="contact-number">
+                            <i class="fas fa-phone"></i> +91 9876543210
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <section class="icons-section">
+                <div class="container">
+                    <h2 class="section-title animate-on-scroll">Why Choose Nexus International?</h2>
+                    <div class="icons-grid">
+                        <div class="icon-card animate-on-scroll">
+                            <i class="fas fa-dollar-sign"></i>
+                            <h3>Affordable Costs</h3>
+                        </div>
+                        <div class="icon-card animate-on-scroll">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <h3>Speedy & Accurate Process</h3>
+                        </div>
+                        <div class="icon-card animate-on-scroll">
+                            <i class="fas fa-star"></i>
+                            <h3>High Quality Services</h3>
+                        </div>
+                        <div class="icon-card animate-on-scroll">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <h3>Service Available All Over India</h3>
+                        </div>
+                        <div class="icon-card animate-on-scroll">
+                            <i class="fas fa-users"></i>
+                            <h3>Expert & Knowledgeable Team</h3>
+                        </div>
+                        <div class="icon-card animate-on-scroll">
+                            <i class="fas fa-clock"></i>
+                            <h3>24 × 7 Assistance</h3>
+                        </div>
+                        <div class="icon-card animate-on-scroll">
+                            <i class="fas fa-reply"></i>
+                            <h3>Timely Response</h3>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+         
+        <div id="services" class="">
+            <section class="services-section">
+                <div class="container">
+                    <h2 class="section-title">Our Services</h2>
+                    <div class="services-grid">
+                       <div class="service-card animate-on-scroll">
+                            <h3>PCC (Police Clearance Certificate)</h3>
+                            <div class="two-column-list">
+                                <ul>
+                                <li>Dubai</li>
+                                <li>Saudi</li>
+                                <li>Oman</li>
+                                <li>Kuwait</li>
+                                <li>Libya</li>
+                                <li>Qatar</li>
+                                <li>Russia</li>
+                                <li>Georgia</li>
+                                <li>Poland</li>
+                                <li>Maldives</li>
+                                <li>UAE</li>
+                                </ul>
+                                <ul>
+                                <li>Iran</li>
+                                <li>Bahrain</li>
+                                <li>Yemen</li>
+                                <li>Libya</li>
+                                <li>Malaysia</li>
+                                <li>Singapore</li>
+                                <li>Norway</li>
+                                <li>Kazakhstan</li>
+                                <li>Germany</li>
+                                <li>Iraq</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="service-card animate-on-scroll">
+                            <h3>Data Flow</h3>
+                            <p>Data Flow Group, based in Dubai, provides specialized document verification services for the healthcare industry. They focus on authenticating the credentials of medical professionals, such as certifications, qualifications, and professional experience, to ensure compliance with healthcare regulations. Their solutions help healthcare institutions verify the qualifications of staff, ensuring patient safety and maintaining high standards of care.</p>
+                            <div class="special-text">
+                                All GCC Countries | Saudi | Qatar | Oman | Kuwait | Bahrain | Malta | UAE
+                            </div>
+                        </div>
+
+                        <div class="service-card animate-on-scroll">
+                            <h3>Verifications</h3>
+                            <ul>
+                                <li>NMBI, CGFNS, WES, IRES, ERES</li>
+                                <li>Malta, Maldives, New York, NNAS</li>
+                                <li>NMC UK Verification</li>
+                                <li>APHRA, ANMAC</li>
+                                <li>Council Verifications</li>
+                                <li>College Verifications</li>
+                                <li>Hospital Verifications</li>
+                                <li>Germany, Switzerland</li>
+                            </ul>
+                            <div class="special-text">
+                                In Kerala, Karnataka, Tamil Nadu, Andhra Pradesh, Telangana, Delhi, Maharashtra, MP, UP Etc.
+                            </div>
+                        </div>
+
+                        <div class="service-card animate-on-scroll">
+                            <h3>Prometric Exam Coaching & Booking</h3>
+                            <div class="two-column-list">
+                                <ul>
+                                <li>Saudi</li>
+                                <li>Bahrain</li>
+                                <li>Qatar</li>
+                                <li>MOH</li>
+                                </ul>
+                                <ul>
+                                <li>Oman</li>
+                                <li>HAAD</li>
+                                <li>Kuwait</li>
+                                <li>DHA</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="service-card animate-on-scroll">
+                            <h3>Exam Coaching</h3>
+                            <ul>
+                                <li>OET Exam Coaching</li>
+                                <li>IELTS Exam Coaching</li>
+                                <li>NCLEX RN</li>
+                                <li>Embassy Seals</li>
+                            </ul>
+                        </div>
+                        <div class="service-card animate-on-scroll">
+                            <h3>List of Professionals</h3>
+                            <ul>
+                                <li>Doctors </li>
+                                <li>Nurses </li>
+                                <li>Pharmacists</li>
+                                <li>Allied Health Professionals</li>
+                            </ul>
+                        </div>
+                        <div class="service-card animate-on-scroll">
+                            <h3>Nursing Councils</h3>
+                            <div class="two-column-list">
+                                <ul>
+                                <li>Kerala</li>
+                                <li>Karnataka</li>
+                                <li>Tamil Nadu</li>
+                                <li>Delhi</li>
+                                <li>Maharashtra</li>
+                                <li>Andra Pradesh</li>
+                                <li>Telangana</li>
+                                <li>Madhya Pradesh</li>
+                                <li>Uttar Pradesh</li>
+                                <li>Rajasthan</li>
+                                
+                                </ul>
+                                <ul>
+                                <li>Punjab</li>
+                                <li>Haryana</li>
+                                <li>Chattisgarh</li>
+                                <li>Saudi</li>
+                                <li>Goa</li>
+                                <li>West Bengal</li>
+                                <li>MOH</li>
+                                <li>DOH</li>
+                                <li>DHA</li>
+                                <li>Oman</li>
+                                <li>Qatar</li>
+
+                                </ul>
+                            </div>
+                        </div>  
+                        <div class="service-card animate-on-scroll">
+                            <h3>Other Services</h3>
+                            <div class="two-column-list-otherSevices">
+                            <ul>
+                                <li>Certificate attestation</li>
+                                <li>Embassy attestation</li>
+                                <li>Notary Attestation</li>
+                                <li>Home attestation</li>
+                                <li>MOFA attestation</li>
+                                <li>HRD attestation</li>
+                                <li>Official Transcript Collection</li>
+                                <li>ACLS/BLS/PALS</li>
+                                
+                            </ul>
+                            <ul>
+                                <li>Admission guidance</li>
+                                <li>Visiting Visa</li>
+                                <li>UK NARIC</li>
+                                <li>Ireland migration</li>
+                                <li>New Zealand Migration</li>
+                                <li>Apostille attestation</li>
+                                <li>NOC</li>
+                                <li>Registration Renewals</li>
+                                 
+                            </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Contact Page -->
+        <div id="contact" class="page">
+            <section class="services-section">
+                <div class="container">
+                    <h2 class="section-title">Contact Us</h2>
+                    <div class="footer-content" style="color: #333;">
+                        <div class="footer-section">
+                            <h3 style="color: #1e3c72;">Contact Numbers</h3>
+                            <a href="tel:+919876543210" style="color: #333;">+91 9876543210</a>
+                            <a href="tel:+919876543211" style="color: #333;">+91 9876543211</a>
+                            <a href="tel:+919876543212" style="color: #333;">+91 9876543212</a>
+                            <a href="tel:+919876543213" style="color: #333;">+91 9876543213</a>
+                        </div>
+                        <div class="footer-section">
+                            <h3 style="color: #1e3c72;">Email</h3>
+                            <a href="mailto:info@nexusinternational.com" style="color: #333;">info@nexusinternational.com</a>
+                        </div>
+                        <div class="footer-section">
+                            <h3 style="color: #1e3c72;">Follow Us</h3>
+                            <div class="social-icons">
+                                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                                <a href="#"><i class="fab fa-instagram"></i></a>
+                                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                                <a href="#"><i class="fab fa-whatsapp"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Contact Numbers</h3>
+                <a href="tel:+919876543210">+91 9876543210</a>
+                <a href="tel:+919876543211">+91 9876543211</a>
+                <a href="tel:+919876543212">+91 9876543212</a>
+                <a href="tel:+919876543213">+91 9876543213</a>
+            </div>
+            <div class="footer-section">
+                <h3>Email</h3>
+                <a href="mailto:info@nexusinternational.com">info@nexusinternational.com</a>
+            </div>
+            <div class="footer-section">
+                <h3>Follow Us</h3>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Nexus International. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Navigation functionality
+        const navLinks = document.querySelectorAll('.nav-link');
+        const pages = document.querySelectorAll('.page');
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const navMenu = document.getElementById('nav-menu');
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Remove active class from all links and pages
+                navLinks.forEach(l => l.classList.remove('active'));
+                pages.forEach(p => p.classList.remove('active'));
+                
+                // Add active class to clicked link
+                this.classList.add('active');
+                
+                // Show corresponding page
+                const targetPage = this.getAttribute('data-page');
+                document.getElementById(targetPage).classList.add('active');
+                
+                // Hide mobile menu
+                navMenu.classList.remove('show');
+                
+                // Trigger scroll animations for the new page
+                setTimeout(() => {
+                    animateOnScroll();
+                }, 100);
+            });
+        });
+
+        // Mobile menu toggle
+        mobileMenuBtn.addEventListener('click', function() {
+            navMenu.classList.toggle('show');
+        });
+
+        // Scroll animations
+        function animateOnScroll() {
+            const elements = document.querySelectorAll('.animate-on-scroll');
+            const windowHeight = window.innerHeight;
+            
+            elements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                
+                if (elementTop < windowHeight - 100) {
+                    element.classList.add('animated');
+                }
+            });
+        }
+
+        // Header scroll effect
+        function handleScroll() {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.style.background = 'rgba(30, 60, 114, 0.95)';
+                header.style.backdropFilter = 'blur(10px)';
+            } else {
+                header.style.background = 'linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)';
+                header.style.backdropFilter = 'none';
+            }
+            
+            animateOnScroll();
+        }
+
+        // Event listeners
+        window.addEventListener('scroll', handleScroll);
+        window.addEventListener('load', animateOnScroll);
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add loading animation
+        window.addEventListener('load', function() {
+            document.body.style.opacity = '0';
+            document.body.style.transition = 'opacity 0.5s ease';
+            setTimeout(() => {
+                document.body.style.opacity = '1';
+            }, 100);
+        });
+    </script>
+</body>
+</html>
